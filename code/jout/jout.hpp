@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: MIT
 //
 #pragma once
+#include <cmath>
 #include <cstdint>
 #include <optional>
 #include <iostream>
@@ -9,8 +10,10 @@
 
 #if JOUT_USE_MSCHARCONV
 #   include <msstl/charconv.hpp>
+#	define JOUT_CHARCONV_NAMESPACE msstl
 #else
 #   include <charconv>
+#	define JOUT_CHARCONV_NAMESPACE std
 #endif
 
 #include <cassert>
@@ -262,7 +265,7 @@ public:
         if (std::isfinite(val))
         {
             char out[25]; // max length of double
-            auto result = std::to_chars(out, out + sizeof(out), val);
+            auto result = JOUT_CHARCONV_NAMESPACE ::to_chars(out, out + sizeof(out), val);
             writeRawJson(std::string_view(out, result.ptr - out));
         }
         else
