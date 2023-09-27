@@ -9,14 +9,30 @@ project(jout
     LANGUAGES CXX
 )
 
+list(APPEND CMAKE_MODULE_PATH
+    "${CMAKE_CURRENT_SOURCE_DIR}/cmake"
+)
+
 if (CMAKE_SOURCE_DIR STREQUAL CMAKE_CURRENT_SOURCE_DIR)
     set(JOUT_DEV ON)
-    include(./dev.cmake)
+    include(jout_dev)
 endif()
 
 add_library(jout INTERFACE)
 add_library(jout::jout ALIAS jout)
 target_include_directories(jout INTERFACE code)
+
+include(check_charconv_support)
+
+if(NOT haveCharconvFloatToChars)
+    message("jout: no charconv floating point support detected. Using mscharconv")
+    include(get_cpm)
+    CPMAddPackage(gh:iboB/mscharconv@1.2.3)
+    target_link_libraries(jout INTERFACE msstl::charconv)
+    target_compile_definitions(jout INTERFACE -DJOUT_USE_MSCHARCONV=1)
+else()
+    message("jout: detected charconv floating point support")
+endif()
 
 option(JOUT_BUILD_TESTS "jout: build tests" ${JOUT_DEV})
 

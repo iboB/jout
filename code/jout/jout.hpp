@@ -5,8 +5,13 @@
 #include <cstdint>
 #include <optional>
 #include <iostream>
-#include <charconv>
 #include <string_view>
+
+#if JOUT_USE_MSCHARCONV
+#   include <msstl/charconv.hpp>
+#else
+#   include <charconv>
+#endif
 
 #include <cassert>
 
