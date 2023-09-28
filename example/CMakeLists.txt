@@ -8,3 +8,4 @@ function(add_jout_example name)
 endfunction()
 
 add_jout_example(basic)
+add_jout_example(custom-types)

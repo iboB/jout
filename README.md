@@ -51,6 +51,39 @@ Optionally make use of the provided `CMakeLists.txt` which will add the dependen
     }
 ```
 
+### Writing Custom Types
+
+Create an overload of `joutWrite` as per the example below:
+
+```c++
+    struct Person {
+        std::string name;
+        int age;
+        std::vector<std::string> pets;
+    };
+
+    // create an overload of joutWrite for your type
+    // be sure that it's either in namespace jout 
+    // or in the namespace of your type
+    void joutWrite(jout::Node& node, const Person& p) {
+        auto obj = node.obj();
+        obj.val("name", p.name);
+        obj.val("age", p.age);
+        obj.val("pets", p.pets);
+    }
+```
+
+Then you can write instances of your type with `val`, like any other value:
+
+```c++
+    Person alice = {
+        "Alice B.",
+        35,
+        {"Lucky", "Fido", "Goldie"}
+    };
+    doc.val(alice);
+```
+
 ## License
 
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
