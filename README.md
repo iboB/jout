@@ -8,6 +8,20 @@ It's essentially a trimmed-down version of [huse](https://github.com/iboB/huse) 
 
 ## Usage
 
+Just include `jout.hpp` in your project and you're good to go.
+
+Optionally make use of the provided `CMakeLists.txt` which will add the dependency [mscharconv](https://github.com/iboB/mscharconv] in case the one provided by the standard library doesn't supprt `to_chars` for floating point numbers (which is the case for gcc 10, clang 14 and their previous versions).
+
+## Features
+
+* Single header
+* No allocations
+* No dependencies besides the standard library (well, unless you use an old one in which case you'll need mscharconv)
+* Sequential. Values are added as they are encountered in the code. There is no way to go back and modify a value. 
+* Optional extension headers to serialize common types
+
+## Example
+
 ```cpp
     // create a document with an ostream and an optional pretty print flag
     jout::Document doc(std::cout, true);
