@@ -6,6 +6,37 @@ A fast minimalistic single-header json writer for C++17.
 
 It's essentially a trimmed-down version of [huse](https://github.com/iboB/huse) where only the basic JSON serialization is kept. It might be useful if one only wants to write a simple json without having to rely on all deps and features of huse.
 
+## Usage
+
+```cpp
+    // create a document with an ostream and an optional pretty print flag
+    jout::Document doc(std::cout, true);
+
+    // create a root object
+    auto root = doc.obj();
+
+    // add some values
+    root.val("hello", "world");
+    root.val("number", 3.14);
+
+    // add an array
+    {
+        // block, array is closed when ar goes out of scope
+        auto ar = root.ar("array");
+        ar.val(1);
+        ar.val("str");
+        ar.val(true);
+        ar.val(nullptr);
+    }
+
+    // add a subobject
+    {
+        // block, object is closed when obj goes out of scope
+        auto obj = root.obj("object");
+        obj.val("key", "value");
+    }
+```
+
 ## License
 
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)

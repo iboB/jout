@@ -41,6 +41,12 @@ if(JOUT_BUILD_TESTS)
     add_subdirectory(test)
 endif()
 
+option(JOUT_BUILD_EXAMPLES "jout: build examples" ${JOUT_DEV})
+
+if(JOUT_BUILD_EXAMPLES)
+    add_subdirectory(example)
+endif()
+
 if(JOUT_DEV)
     add_subdirectory(scratch)
 endif()
