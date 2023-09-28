@@ -1,55 +1,14 @@
 // Copyright (c) Borislav Stanimirov
 // SPDX-License-Identifier: MIT
 //
+#include "t-helpers.hpp"
+
 #include <doctest/doctest.h>
 
-#include <jout/jout.hpp>
-
-#include <sstream>
 #include <limits>
 #include <cstring>
 
-
-TEST_SUITE_BEGIN("json");
-
-struct JsonSerializerPack
-{
-    std::ostringstream sout;
-    std::optional<jout::Document> d;
-
-    JsonSerializerPack(bool pretty = false)
-    {
-        d.emplace(sout, pretty);
-    }
-
-    std::string str()
-    {
-        d.reset();
-        return sout.str();
-    }
-};
-
-struct JsonSerializeTester
-{
-    std::optional<JsonSerializerPack> pack;
-
-    jout::Document& make(bool pretty)
-    {
-        assert(!pack);
-        pack.emplace(pretty);
-        return *pack->d;
-    }
-
-    jout::Document& compact() { return make(false); }
-    jout::Document& pretty() { return make(true); }
-
-    std::string str()
-    {
-        std::string ret = pack->str();
-        pack.reset();
-        return ret;
-    }
-};
+TEST_SUITE_BEGIN("jout");
 
 TEST_CASE("simple serialize")
 {
